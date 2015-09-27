@@ -71,10 +71,8 @@
 
 		break;
 	case "Buscar":
-	?>
-		<H1>Notas encontradas</H1>
-	<?php
-		 if(!$enlace = mysql_connect('localhost','root','0213')){
+
+		if(!$enlace = mysql_connect('localhost','root','0213')){
                     echo 'No pudo conectarse a mysql';
                     exit;
                 }
@@ -87,7 +85,17 @@
 
                 $sqlSelect="select * from notas where valor like '%$palabro%' order by id desc";
                 $resultadoSelect=mysql_query($sqlSelect,$enlace);
-
+		
+		if(mysql_num_rows($resultadoSelect)!=0){
+		?>
+		<H1>Notas encontradas</H1>
+		<?php
+		}else{
+		?>
+		<H1>No hay coincidencias</H1>
+		<?php
+		}		
+		
                 while($fila=mysql_fetch_array($resultadoSelect,MYSQL_NUM)){
                         echo "$fila[0] , $fila[1]<br>";
                 }
